@@ -43,12 +43,15 @@ public class MainActivity extends RobotActivity {
     private static TextView option2;
     private static TextView option3;
     private static TextView option4;
+    private static TextView textView2;
     private static Context context;
     private static int answerpos;
     private static int randomnum;
     private static int nowcategory;
-    LayoutInflater inflater =  getLayoutInflater();
-    final  View view4 = inflater.inflate(R.layout.prize, null);
+
+
+    //LayoutInflater inflater = getLayoutInflater();
+    //final View view4 = inflater.inflate(R.layout.prize, null);
 
     //華語日常生活
     private static String category1[] = {"自己", "早安", "父母", "再見", "婦人", "自己人", "西洋人", "小孩子", "頭", "口水", "淚水", "眼睛", "耳朵", "肩膀", "背部", "身體", "腎臟", "腳面", "腸子", "鼻子", "膝蓋", "脖子",
@@ -88,18 +91,20 @@ public class MainActivity extends RobotActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater =  getLayoutInflater();
+        LayoutInflater inflater = getLayoutInflater();
         final View view1 = inflater.inflate(R.layout.start, null);
         final View view2 = inflater.inflate(R.layout.sound_category, null);
         final View view3 = inflater.inflate(R.layout.text_category, null);
-        //final View view4 = inflater.inflate(R.layout.prize, null);
+        final View view4 = inflater.inflate(R.layout.prize, null);
         final View view5 = inflater.inflate(R.layout.question, null);
         final View view6 = inflater.inflate(R.layout.answer, null);
+        final View view7 = inflater.inflate(R.layout.sound_wait_answer, null);
         textView1 = (TextView) view5.findViewById(R.id.textView1);
         option1 =(TextView) view6.findViewById(R.id.option1);
         option2 =(TextView) view6.findViewById(R.id.option2);
         option3 =(TextView) view6.findViewById(R.id.option3);
         option4 =(TextView) view6.findViewById(R.id.option4);
+        textView2 = (TextView) view7.findViewById(R.id.answer_hint);
         setContentView(view1);
         //語音版
         Button button1 = (Button) view1.findViewById(R.id.btn1);
@@ -129,7 +134,7 @@ public class MainActivity extends RobotActivity {
             @Override
             public void onClick(View v) {
                 //robotAPI.robot.setExpression(RobotFace.EXPECTING);
-                /*try {
+                try {
                     Uri uri = Uri.parse("https://hakka2speech.smarthome.csie.nuu.edu.tw/?text=歡迎光臨，我是聯大院寶，歡迎來到大學市集，挑戰折價劵大猜謎");
                     MediaPlayer player = new MediaPlayer();
                     player.reset();
@@ -140,8 +145,7 @@ public class MainActivity extends RobotActivity {
                     player.setVolume(1.0f, 1.0f);
                 } catch (Exception e) {
                     System.out.println(e.toString());
-                }*/
-                Log.d(TAG, "文字按鈕會動");
+                }
                 setContentView(view3);
             }
         });
@@ -151,9 +155,10 @@ public class MainActivity extends RobotActivity {
         button3.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                robotAPI.robot.setExpression(RobotFace.EXPECTING);
+                //robotAPI.robot.setExpression(RobotFace.EXPECTING);
                 nowcategory = 1;
                 randomnum = (int)(Math.random() * 117);
+                Log.d(TAG, "題型: " + nowcategory);
                 Log.d(TAG, "目前答案: " + category1[randomnum]);
                 try {
                     Uri uri = Uri.parse("https://hakka2speech.smarthome.csie.nuu.edu.tw/?text=" + "請問客語的" + category1[randomnum] + "是什麼意思?");
@@ -164,10 +169,13 @@ public class MainActivity extends RobotActivity {
                     player.prepare();
                     player.start();
                     player.setVolume(1.0f, 1.0f);
+                    Thread.sleep(5000);
                 } catch (Exception e) {
                     System.out.println(e.toString());
                 }
-                robotAPI.robot.speakAndListen("",new SpeakConfig().timeout(20));
+                setContentView(view7);
+                robotAPI.robot.speakAndListen("",new SpeakConfig().waitFactor(5));
+                //robotAPI.robot.speakAndListen("",new SpeakConfig().MODE_FOREVER);
             }
         });
         //語音版_題型休閒娛樂
@@ -175,9 +183,10 @@ public class MainActivity extends RobotActivity {
         button4.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                robotAPI.robot.setExpression(RobotFace.EXPECTING);
+                //robotAPI.robot.setExpression(RobotFace.EXPECTING);
                 nowcategory = 2;
                 randomnum = (int)(Math.random() * 33);
+                Log.d(TAG, "題型: " + nowcategory);
                 Log.d(TAG, "目前答案: " + category2[randomnum]);
                 try {
                     Uri uri = Uri.parse("https://hakka2speech.smarthome.csie.nuu.edu.tw/?text=" + "請問客語的" + category2[randomnum] + "是什麼意思?");
@@ -188,10 +197,13 @@ public class MainActivity extends RobotActivity {
                     player.prepare();
                     player.start();
                     player.setVolume(1.0f, 1.0f);
+                    Thread.sleep(5000);
                 } catch (Exception e) {
                     System.out.println(e.toString());
                 }
-                robotAPI.robot.speakAndListen("",new SpeakConfig().timeout(20));
+                setContentView(view7);
+                robotAPI.robot.speakAndListen("",new SpeakConfig().waitFactor(5));
+                //robotAPI.robot.speakAndListen("",new SpeakConfig().MODE_FOREVER);
             }
         });
         //語音版_題型時間空間
@@ -199,9 +211,10 @@ public class MainActivity extends RobotActivity {
         button5.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                robotAPI.robot.setExpression(RobotFace.EXPECTING);
+                //robotAPI.robot.setExpression(RobotFace.EXPECTING);
                 nowcategory = 3;
                 randomnum = (int)(Math.random() * 79);
+                Log.d(TAG, "題型: " + nowcategory);
                 Log.d(TAG, "目前答案: " + category3[randomnum]);
                 try {
                     Uri uri = Uri.parse("https://hakka2speech.smarthome.csie.nuu.edu.tw/?text=" + "請問客語的" + category3[randomnum] + "是什麼意思?");
@@ -212,10 +225,13 @@ public class MainActivity extends RobotActivity {
                     player.prepare();
                     player.start();
                     player.setVolume(1.0f, 1.0f);
+                    Thread.sleep(5000);
                 } catch (Exception e) {
                     System.out.println(e.toString());
                 }
-                robotAPI.robot.speakAndListen("",new SpeakConfig().timeout(20));
+                setContentView(view7);
+                robotAPI.robot.speakAndListen("",new SpeakConfig().waitFactor(5));
+                //robotAPI.robot.speakAndListen("",new SpeakConfig().MODE_FOREVER);
             }
         });
         //語音版_題型動植物
@@ -226,6 +242,7 @@ public class MainActivity extends RobotActivity {
                 //robotAPI.robot.setExpression(RobotFace.EXPECTING);
                 nowcategory = 4;
                 randomnum = (int)(Math.random() * 51);
+                Log.d(TAG, "題型: " + nowcategory);
                 Log.d(TAG, "目前答案: " + category4[randomnum]);
                 try {
                     Uri uri = Uri.parse("https://hakka2speech.smarthome.csie.nuu.edu.tw/?text=" + "請問客語的" + category4[randomnum] + "是什麼意思?");
@@ -236,10 +253,44 @@ public class MainActivity extends RobotActivity {
                     player.prepare();
                     player.start();
                     player.setVolume(1.0f, 1.0f);
+                    Thread.sleep(5000);
                 } catch (Exception e) {
                     System.out.println(e.toString());
                 }
-                robotAPI.robot.speakAndListen("",new SpeakConfig().timeout(20));
+                setContentView(view7);
+                robotAPI.robot.speakAndListen("",new SpeakConfig().waitFactor(5));
+                //robotAPI.robot.speakAndListen("",new SpeakConfig().MODE_FOREVER);
+            }
+        });
+        //語音版_重新聆聽
+        Button button15 = (Button) view7.findViewById(R.id.relisten);
+        button15.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                robotAPI.robot.speakAndListen("",new SpeakConfig().MODE_FOREVER);
+            }
+        });
+        //語音版_提示
+        Button button16 = (Button) view7.findViewById(R.id.relisten);
+        button16.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(nowcategory==1)
+                {
+                    textView2.setText("答案提示"+category5[randomnum]);
+                }
+                if(nowcategory==2)
+                {
+                    textView2.setText("答案提示"+category6[randomnum]);
+                }
+                if(nowcategory==3)
+                {
+                    textView2.setText("答案提示"+category7[randomnum]);
+                }
+                if(nowcategory==4)
+                {
+                    textView2.setText("答案提示"+category8[randomnum]);
+                }
             }
         });
         //文字版_題型日常生活
@@ -250,6 +301,7 @@ public class MainActivity extends RobotActivity {
                 //robotAPI.robot.setExpression(RobotFace.EXPECTING);
                 nowcategory = 1;
                 randomnum = (int)(Math.random() * 117);
+                Log.d(TAG, "題型: " + nowcategory);
                 Log.d(TAG, "目前答案: " + category1[randomnum]);
                 setContentView(view5);
                 textView1.setText("請問客語个「" + category5[randomnum]  + "」係甚麼意思");
@@ -264,6 +316,7 @@ public class MainActivity extends RobotActivity {
                 //robotAPI.robot.setExpression(RobotFace.EXPECTING);
                 nowcategory = 2;
                 randomnum = (int)(Math.random() * 33);
+                Log.d(TAG, "題型: " + nowcategory);
                 Log.d(TAG, "目前答案: " + category2[randomnum]);
                 textView1.setText("請問客語个「" + category6[randomnum]  + "」係甚麼意思");
                 setContentView(view5);
@@ -277,6 +330,7 @@ public class MainActivity extends RobotActivity {
                 //robotAPI.robot.setExpression(RobotFace.EXPECTING);
                 nowcategory = 3;
                 randomnum = (int)(Math.random() * 79);
+                Log.d(TAG, "題型: " + nowcategory);
                 Log.d(TAG, "目前答案: " + category3[randomnum]);
                 textView1.setText("請問客語个「" + category7[randomnum]  + "」係甚麼意思");
                 setContentView(view5);
@@ -290,6 +344,7 @@ public class MainActivity extends RobotActivity {
                 //robotAPI.robot.setExpression(RobotFace.EXPECTING);
                 nowcategory = 4;
                 randomnum = (int)(Math.random() * 51);
+                Log.d(TAG, "題型: " + nowcategory);
                 Log.d(TAG, "目前答案: " + category4[randomnum]);
                 textView1.setText("請問客語个「" + category8[randomnum]  + "」係甚麼意思");
                 setContentView(view5);
@@ -302,7 +357,7 @@ public class MainActivity extends RobotActivity {
             public void onClick(View v) {
                 int ans[] = {0,0,0};
                 int cnt=0;
-                if(nowcategory == 1) {
+                if(nowcategory == 1) {//生活
                     answerpos = (int) (Math.random() * 4 + 1);
                     if (answerpos == 1) {
                         option1.setText(category1[randomnum]);
@@ -422,17 +477,17 @@ public class MainActivity extends RobotActivity {
                     }
 
                 }
-                if(nowcategory == 2) {
+                if(nowcategory == 2) {//娛樂
                         answerpos = (int)(Math.random() * 4 + 1);
                         if(answerpos == 1)
                         {
-                            option1.setText(category1[randomnum]);
+                            option1.setText(category2[randomnum]);
                             ans[cnt] = (int) (Math.random() * 33);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 33);
                             }
-                            option2.setText(category1[ans[cnt]]);
+                            option2.setText(category2[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 33);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -442,7 +497,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 33);
                                 }
                             }
-                            option3.setText(category1[ans[cnt]]);
+                            option3.setText(category2[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 33);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -452,17 +507,17 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 33);
                                 }
                             }
-                            option4.setText(category1[ans[cnt]]);
+                            option4.setText(category2[ans[cnt]]);
                         }
                         if(answerpos == 2)
                         {
-                            option2.setText(category1[randomnum]);
+                            option2.setText(category2[randomnum]);
                             ans[cnt] = (int) (Math.random() * 33);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 33);
                             }
-                            option1.setText(category1[ans[cnt]]);
+                            option1.setText(category2[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 33);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -472,7 +527,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 33);
                                 }
                             }
-                            option3.setText(category1[ans[cnt]]);
+                            option3.setText(category2[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 33);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -482,17 +537,17 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 33);
                                 }
                             }
-                            option4.setText(category1[ans[cnt]]);
+                            option4.setText(category2[ans[cnt]]);
                         }
                         if(answerpos == 3)
                         {
-                            option3.setText(category1[randomnum]);
+                            option3.setText(category2[randomnum]);
                             ans[cnt] = (int) (Math.random() * 33);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 33);
                             }
-                            option2.setText(category1[ans[cnt]]);
+                            option2.setText(category2[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 33);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -502,7 +557,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 33);
                                 }
                             }
-                            option1.setText(category1[ans[cnt]]);
+                            option1.setText(category2[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 33);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -512,17 +567,17 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 33);
                                 }
                             }
-                            option4.setText(category1[ans[cnt]]);
+                            option4.setText(category2[ans[cnt]]);
                         }
                         if(answerpos == 4)
                         {
-                            option4.setText(category1[randomnum]);
+                            option4.setText(category2[randomnum]);
                             ans[cnt] = (int) (Math.random() * 33);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 33);
                             }
-                            option2.setText(category1[ans[cnt]]);
+                            option2.setText(category2[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 33);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -532,7 +587,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 33);
                                 }
                             }
-                            option3.setText(category1[ans[cnt]]);
+                            option3.setText(category2[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 33);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -542,20 +597,20 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 33);
                                 }
                             }
-                            option1.setText(category1[ans[cnt]]);
+                            option1.setText(category2[ans[cnt]]);
                         }
                 }
-                if(nowcategory == 3) {
+                if(nowcategory == 3) {//時空
                         answerpos = (int)(Math.random() * 4 + 1);
                         if(answerpos == 1)
                         {
-                            option1.setText(category1[randomnum]);
+                            option1.setText(category3[randomnum]);
                             ans[cnt] = (int) (Math.random() * 79);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 79);
                             }
-                            option2.setText(category1[ans[cnt]]);
+                            option2.setText(category3[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 79);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -565,7 +620,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 79);
                                 }
                             }
-                            option3.setText(category1[ans[cnt]]);
+                            option3.setText(category3[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 79);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -575,17 +630,17 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 79);
                                 }
                             }
-                            option4.setText(category1[ans[cnt]]);
+                            option4.setText(category3[ans[cnt]]);
                         }
                         if(answerpos == 2)
                         {
-                            option2.setText(category1[randomnum]);
+                            option2.setText(category3[randomnum]);
                             ans[cnt] = (int) (Math.random() * 79);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 79);
                             }
-                            option1.setText(category1[ans[cnt]]);
+                            option1.setText(category3[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 79);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -595,7 +650,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 79);
                                 }
                             }
-                            option3.setText(category1[ans[cnt]]);
+                            option3.setText(category3[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 79);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -605,17 +660,17 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 79);
                                 }
                             }
-                            option4.setText(category1[ans[cnt]]);
+                            option4.setText(category3[ans[cnt]]);
                         }
                         if(answerpos == 3)
                         {
-                            option3.setText(category1[randomnum]);
+                            option3.setText(category3[randomnum]);
                             ans[cnt] = (int) (Math.random() * 79);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 79);
                             }
-                            option2.setText(category1[ans[cnt]]);
+                            option2.setText(category3[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 79);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -625,7 +680,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 79);
                                 }
                             }
-                            option1.setText(category1[ans[cnt]]);
+                            option1.setText(category3[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 79);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -635,17 +690,17 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 79);
                                 }
                             }
-                            option4.setText(category1[ans[cnt]]);
+                            option4.setText(category3[ans[cnt]]);
                         }
                         if(answerpos == 4)
                         {
-                            option4.setText(category1[randomnum]);
+                            option4.setText(category3[randomnum]);
                             ans[cnt] = (int) (Math.random() * 79);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 79);
                             }
-                            option2.setText(category1[ans[cnt]]);
+                            option2.setText(category3[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 79);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -655,7 +710,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 79);
                                 }
                             }
-                            option3.setText(category1[ans[cnt]]);
+                            option3.setText(category3[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 79);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -665,20 +720,20 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 79);
                                 }
                             }
-                            option1.setText(category1[ans[cnt]]);
+                            option1.setText(category3[ans[cnt]]);
                         }
                 }
-                if(nowcategory == 4) {
+                if(nowcategory == 4) {//動植
                         answerpos = (int)(Math.random() * 4 + 1);
                         if(answerpos == 1)
                         {
-                            option1.setText(category1[randomnum]);
+                            option1.setText(category4[randomnum]);
                             ans[cnt] = (int) (Math.random() * 51);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 51);
                             }
-                            option2.setText(category1[ans[cnt]]);
+                            option2.setText(category4[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 51);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -688,7 +743,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 51);
                                 }
                             }
-                            option3.setText(category1[ans[cnt]]);
+                            option3.setText(category4[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 51);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -698,17 +753,17 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 51);
                                 }
                             }
-                            option4.setText(category1[ans[cnt]]);
+                            option4.setText(category4[ans[cnt]]);
                         }
                         if(answerpos == 2)
                         {
-                            option2.setText(category1[randomnum]);
+                            option2.setText(category4[randomnum]);
                             ans[cnt] = (int) (Math.random() * 51);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 51);
                             }
-                            option1.setText(category1[ans[cnt]]);
+                            option1.setText(category4[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 51);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -718,7 +773,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 51);
                                 }
                             }
-                            option3.setText(category1[ans[cnt]]);
+                            option3.setText(category4[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 51);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -728,17 +783,17 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 51);
                                 }
                             }
-                            option4.setText(category1[ans[cnt]]);
+                            option4.setText(category4[ans[cnt]]);
                         }
                         if(answerpos == 3)
                         {
-                            option3.setText(category1[randomnum]);
+                            option3.setText(category4[randomnum]);
                             ans[cnt] = (int) (Math.random() * 51);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 51);
                             }
-                            option2.setText(category1[ans[cnt]]);
+                            option2.setText(category4[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 51);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -748,7 +803,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 51);
                                 }
                             }
-                            option1.setText(category1[ans[cnt]]);
+                            option1.setText(category4[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 51);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -758,17 +813,17 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 51);
                                 }
                             }
-                            option4.setText(category1[ans[cnt]]);
+                            option4.setText(category4[ans[cnt]]);
                         }
                         if(answerpos == 4)
                         {
-                            option4.setText(category1[randomnum]);
+                            option4.setText(category4[randomnum]);
                             ans[cnt] = (int) (Math.random() * 51);
                             while(ans[cnt]==randomnum)
                             {
                                 ans[cnt] = (int) (Math.random() * 51);
                             }
-                            option2.setText(category1[ans[cnt]]);
+                            option2.setText(category4[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 51);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -778,7 +833,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 51);
                                 }
                             }
-                            option3.setText(category1[ans[cnt]]);
+                            option3.setText(category4[ans[cnt]]);
                             cnt++;
                             ans[cnt] = (int) (Math.random() * 51);
                             for( int i = 0 ; i < cnt ; ++i )
@@ -788,7 +843,7 @@ public class MainActivity extends RobotActivity {
                                     ans[cnt] = (int) (Math.random() * 51);
                                 }
                             }
-                            option1.setText(category1[ans[cnt]]);
+                            option1.setText(category4[ans[cnt]]);
                         }
                 }
                 setContentView(view6);
@@ -882,6 +937,8 @@ public class MainActivity extends RobotActivity {
     public static Context getAppContext() {
         return context;
     }
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -907,11 +964,17 @@ public class MainActivity extends RobotActivity {
         @Override
         public void onResult(int cmd, int serial, RobotErrorCode err_code, Bundle result) {
             super.onResult(cmd, serial, err_code, result);
+            //MainActivity onResult = new MainActivity();
+            //LayoutInflater inflater =  onResult.getLayoutInflater();
+            //View view4 = inflater.inflate(R.layout.prize, null);
+            //this.inflater = context.getLayoutInflater();
+
         }
 
         @Override
         public void onStateChange(int cmd, int serial, RobotErrorCode err_code, RobotCmdState state) {
             super.onStateChange(cmd, serial, err_code, state);
+            Log.d(TAG, "onStateChange: " + state);
         }
 
         @Override
@@ -949,43 +1012,53 @@ public class MainActivity extends RobotActivity {
 
         @Override
         public void onResult(JSONObject jsonObject) {
+            MainActivity onResult = new MainActivity();
+            //this.context = context;
+            LayoutInflater inflater =  onResult.getLayoutInflater();
+            View view4 = inflater.inflate(R.layout.prize, null);
             String text;
             text = "onResult: " + jsonObject.toString();
             Log.d(TAG, text);
             String sIntentionID = RobotUtil.queryListenResultJson(jsonObject, "IntentionId");
             Log.d(TAG, "Intention Id = " + sIntentionID);
-            Log.d(TAG, "題型: " + nowcategory);
             if (sIntentionID.equals("Answer")) {
-                robotAPI.robot.setExpression(RobotFace.HAPPY);
-                sSluResultword = RobotUtil.queryListenResultJson(jsonObject, "str", null);
+                //robotAPI.robot.setExpression(RobotFace.HAPPY);
+                sSluResultword = RobotUtil.queryListenResultJson(jsonObject, "answer", null);
                 Log.d(TAG, "sSluResultword: " + sSluResultword);
-                if (nowcategory == 1) {
-                    if (sSluResultword.equals(category1[randomnum])) {
-                        Log.d(TAG, "題目: " + category1[randomnum]);
-                        robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
-                        //setContentView(view4);
+                if(sSluResultword != null) {
+                    Log.d(TAG, "answer: " + sSluResultword);
+                    if (nowcategory == 1) {
+                        if (sSluResultword.equals(category1[randomnum])) {
+                            Log.d(TAG, "題目: " + category1[randomnum]);
+                            robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
+                            onResult.setContentView(view4);
+                        }
+                    }
+                    if (nowcategory == 2) {
+                        if (sSluResultword.equals(category2[randomnum])) {
+                            Log.d(TAG, "題目: " + category2[randomnum]);
+                            robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
+                            onResult.setContentView(view4);
+                        }
+                    }
+                    if (nowcategory == 3) {
+                        if (sSluResultword.equals(category3[randomnum])) {
+                            Log.d(TAG, "題目: " + category3[randomnum]);
+                            robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
+                            onResult.setContentView(view4);
+                        }
+                    }
+                    if (nowcategory == 4) {
+                        if (sSluResultword.equals(category4[randomnum])) {
+                            Log.d(TAG, "題目: " + category4[randomnum]);
+                            robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
+                            onResult.setContentView(view4);
+                        }
                     }
                 }
-                if (nowcategory == 2) {
-                    if (sSluResultword.equals(category2[randomnum])) {
-                        Log.d(TAG, "題目: " + category2[randomnum]);
-                        robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
-                        //setContentView(view);
-                    }
-                }
-                if (nowcategory == 3) {
-                    if (sSluResultword.equals(category3[randomnum])) {
-                        Log.d(TAG, "題目: " + category3[randomnum]);
-                        robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
-                        //setContentView(view);
-                    }
-                }
-                if (nowcategory == 4) {
-                    if (sSluResultword.equals(category4[randomnum])) {
-                        Log.d(TAG, "題目: " + category4[randomnum]);
-                        robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
-                        //setContentView(view);
-                    }
+                else
+                {
+                    robotAPI.robot.speakAndListen("",new SpeakConfig().MODE_FOREVER);
                 }
             }
         }
@@ -996,8 +1069,8 @@ public class MainActivity extends RobotActivity {
             Log.d(TAG, "答錯");
         }
     };
-
     public MainActivity() {
         super(robotCallback, robotListenCallback);
     }
 }
+

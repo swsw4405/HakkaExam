@@ -30,6 +30,7 @@
             android:layout_marginTop="200dp"
             android:textSize="100dp"
             android:text="時空" />
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -52,5 +53,6 @@
             android:layout_marginLeft="500dp"
             android:text="動植"
             android:textSize="100dp" />
+
     </LinearLayout>
 </FrameLayout>

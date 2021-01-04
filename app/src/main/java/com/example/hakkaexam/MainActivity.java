@@ -49,9 +49,11 @@ public class MainActivity extends RobotActivity {
     private static int randomnum;
     private static int nowcategory;
 
-
-    //LayoutInflater inflater = getLayoutInflater();
+    //LayoutInflater inflater = LayoutInflater.from(context);
+    //LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+    //LayoutInflater inflater = this.getLayoutInflater();
     //final View view4 = inflater.inflate(R.layout.prize, null);
+
 
     //華語日常生活
     private static String category1[] = {"自己", "早安", "父母", "再見", "婦人", "自己人", "西洋人", "小孩子", "頭", "口水", "淚水", "眼睛", "耳朵", "肩膀", "背部", "身體", "腎臟", "腳面", "腸子", "鼻子", "膝蓋", "脖子",
@@ -112,7 +114,7 @@ public class MainActivity extends RobotActivity {
             @Override
             public void onClick(View v) {
                 //robotAPI.robot.setExpression(RobotFace.EXPECTING);
-                try {
+                /*try {
                     Uri uri = Uri.parse("https://hakka2speech.smarthome.csie.nuu.edu.tw/?text=歡迎光臨，我是聯大院寶，歡迎來到大學市集，挑戰折價劵大猜謎");
                     MediaPlayer player = new MediaPlayer();
                     player.reset();
@@ -123,7 +125,7 @@ public class MainActivity extends RobotActivity {
                     player.setVolume(1.0f, 1.0f);
                 } catch (Exception e) {
                     System.out.println(e.toString());
-                }
+                }*/
                 setContentView(view2);
             }
         });
@@ -271,7 +273,7 @@ public class MainActivity extends RobotActivity {
             }
         });
         //語音版_提示
-        Button button16 = (Button) view7.findViewById(R.id.relisten);
+        Button button16 = (Button) view7.findViewById(R.id.hint);
         button16.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1014,8 +1016,10 @@ public class MainActivity extends RobotActivity {
         public void onResult(JSONObject jsonObject) {
             MainActivity onResult = new MainActivity();
             //this.context = context;
-            LayoutInflater inflater =  onResult.getLayoutInflater();
-            View view4 = inflater.inflate(R.layout.prize, null);
+            //LayoutInflater inflater =  onResult.getLayoutInflater();
+
+            View view4 = LayoutInflater.from(context).inflate(R.layout.prize, null);
+            View view7 = LayoutInflater.from(context).inflate(R.layout.sound_wait_answer, null);
             String text;
             text = "onResult: " + jsonObject.toString();
             Log.d(TAG, text);

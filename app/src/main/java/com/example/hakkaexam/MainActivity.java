@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.asus.robotframework.API.RobotCallback;
 import com.asus.robotframework.API.RobotCmdState;
+import com.asus.robotframework.API.RobotCommand;
 import com.asus.robotframework.API.RobotErrorCode;
 import com.asus.robotframework.API.RobotFace;
 import com.asus.robotframework.API.RobotUtil;
@@ -49,6 +50,14 @@ public class MainActivity extends RobotActivity {
     private static int answerpos;
     private static int randomnum;
     private static int nowcategory;
+    private  static View view1;
+    private  static View view2;
+    private  static View view3;
+    private  static View view4;
+    private  static View view5;
+    private  static View view6;
+    private  static View view7;
+    //private static MainActivity onResult = new MainActivity();
 
     //LayoutInflater inflater = LayoutInflater.from(context);
     //LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
@@ -95,13 +104,13 @@ public class MainActivity extends RobotActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = getLayoutInflater();
-        final View view1 = inflater.inflate(R.layout.start, null);
-        final View view2 = inflater.inflate(R.layout.sound_category, null);
-        final View view3 = inflater.inflate(R.layout.text_category, null);
-        final View view4 = inflater.inflate(R.layout.prize, null);
-        final View view5 = inflater.inflate(R.layout.question, null);
-        final View view6 = inflater.inflate(R.layout.answer, null);
-        final View view7 = inflater.inflate(R.layout.sound_wait_answer, null);
+        view1 = inflater.inflate(R.layout.start, null);
+        view2 = inflater.inflate(R.layout.sound_category, null);
+        view3 = inflater.inflate(R.layout.text_category, null);
+        view4 = inflater.inflate(R.layout.prize, null);
+        view5 = inflater.inflate(R.layout.question, null);
+        view6 = inflater.inflate(R.layout.answer, null);
+        view7 = inflater.inflate(R.layout.sound_wait_answer, null);
         textView1 = (TextView) view5.findViewById(R.id.textView1);
         option1 =(TextView) view6.findViewById(R.id.option1);
         option2 =(TextView) view6.findViewById(R.id.option2);
@@ -109,7 +118,13 @@ public class MainActivity extends RobotActivity {
         option4 =(TextView) view6.findViewById(R.id.option4);
         textView2 = (TextView) view7.findViewById(R.id.answer_hint);
         setContentView(view1);
+        Log.d(TAG, "view1==>" + view1);
+        Log.d(TAG, "view2==>" + view2);
+        Log.d(TAG, "view3==>" + view3);
         Log.d(TAG, "view4==>" + view4);
+        Log.d(TAG, "view5==>" + view5);
+        Log.d(TAG, "view6==>" + view6);
+        Log.d(TAG, "view7==>" + view7);
         //語音版
         Button button1 = (Button) view1.findViewById(R.id.btn1);
         button1.setOnClickListener(new Button.OnClickListener() {
@@ -274,9 +289,17 @@ public class MainActivity extends RobotActivity {
                 robotAPI.robot.speakAndListen("",new SpeakConfig().MODE_FOREVER);
             }
         });
-        //語音版_提示
-        Button button16 = (Button) view7.findViewById(R.id.hint);
+        //語音版_重新聆聽
+        Button button16 = (Button) view7.findViewById(R.id.rechoose);
         button16.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(view2);
+            }
+        });
+        //語音版_提示
+        Button button17 = (Button) view7.findViewById(R.id.hint);
+        button17.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(nowcategory==1)
@@ -973,7 +996,7 @@ public class MainActivity extends RobotActivity {
         @Override
         public void onStateChange(int cmd, int serial, RobotErrorCode err_code, RobotCmdState state) {
             super.onStateChange(cmd, serial, err_code, state);
-            Log.d(TAG, "onStateChange: " + state);
+            Log.d(TAG, "onStateChange: state=" + state);
         }
 
         @Override
@@ -1011,15 +1034,15 @@ public class MainActivity extends RobotActivity {
         @Override
         public void onResult(JSONObject jsonObject) {
             MainActivity onResult = new MainActivity();
-
             //this.context = context;
             //LayoutInflater inflater =  onResult.getLayoutInflater();
-            View view = LayoutInflater.from(context).inflate(R.layout.prize, null);
+            //View view = LayoutInflater.from(context).inflate(R.layout.prize, null);
+            //View testview = LayoutInflater.from(context).inflate(R.layout.sound_wait_answer, null);
             String text;
             text = "onResult: " + jsonObject.toString();
             Log.d(TAG, text);
             Log.d(TAG, "onResult==>" + onResult);
-            Log.d(TAG, "view==>" + view);
+            //Log.d(TAG, "view==>" + view);
             String sIntentionID = RobotUtil.queryListenResultJson(jsonObject, "IntentionId");
             Log.d(TAG, "Intention Id = " + sIntentionID);
             if (sIntentionID.equals("Answer")) {
@@ -1032,29 +1055,28 @@ public class MainActivity extends RobotActivity {
                         if (sSluResultword.equals(category1[randomnum])) {
                             Log.d(TAG, "題目: " + category1[randomnum]);
                             robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
-                            onResult.setContentView(view);
-
+                            onResult.getParent().setContentView(view4);
                         }
                     }
                     if (nowcategory == 2) {
                         if (sSluResultword.equals(category2[randomnum])) {
                             Log.d(TAG, "題目: " + category2[randomnum]);
                             robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
-                            onResult.setContentView(view);
+                            onResult.setContentView(view4);
                         }
                     }
                     if (nowcategory == 3) {
                         if (sSluResultword.equals(category3[randomnum])) {
                             Log.d(TAG, "題目: " + category3[randomnum]);
                             robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
-                            onResult.setContentView(view);
+                            onResult.setContentView(view4);
                         }
                     }
                     if (nowcategory == 4) {
                         if (sSluResultword.equals(category4[randomnum])) {
                             Log.d(TAG, "題目: " + category4[randomnum]);
                             robotAPI.robot.speak("恭喜！答對了！！請用手機掃描QR Code獲得優惠券一張");
-                            onResult.setContentView(view);
+                            onResult.setContentView(view4);
                         }
                     }
                 }
